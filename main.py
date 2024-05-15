@@ -1,6 +1,9 @@
 import requests
+import re
 from bs4 import BeautifulSoup
 from datetime import date, timedelta
+from collections import Counter
+from string import punctuation
 
 URL = "https://blog.hubspot.com/"
 
@@ -58,7 +61,6 @@ def fetch_blogs(
             posting_date = posting_date_div.find_all("p")[1].text.split()[0]
 
             if posting_date in current_date_formated:
-                print("One of the most recent article is fetched")
                 URL_to_blog = blog.div.div.h3.a["href"]
                 URLs.append(URL_to_blog)
                 number_of_articles_to_fetch -= 1
@@ -70,6 +72,59 @@ def fetch_blogs(
     return URLs
 
 
+def analyze_blogs(URLs: list[str]):
+    """
+    Purpose:
+
+    Input:
+    
+    Output:
+    """
+
+
+    # html_text = requests.get(URLs[0]).text
+    # soup = BeautifulSoup(html_text, "lxml")
+    # # blog = soup.find("h1", class_="blog-post-header-title")
+    # blog_title = soup.find("span", class_="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_text").text
+    # print(f"Blog title: \"{blog_title}\"")
+    # blog_text = soup.find_all("p")
+    # for text in blog_text:
+    #     print(text.text.split())
+    #     # print(f"Blog text: \"{text.text}\"")
+
+
+    for url in URLs:
+        # Fetch the content from the URL
+        response = requests.get(url)
+        if response.status_code == 200:
+            # Parse the content with BeautifulSoup
+            soup = BeautifulSoup(response.content, 'lxml')
+
+            blog_title = soup.find("span", class_="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_text").text
+            print(f"Blog title: \"{blog_title}\"")
+            print(f"Blog URL: \"{url}\"")
+            
+            # Extract text from the webpage
+            text = soup.get_text()
+
+            # Clean and split the text into words
+            words = re.findall(r'\b\w+\b', text.lower())
+            
+            # Count the frequency of each word
+            word_counts = Counter(words)
+            
+            # Get the 5 most common words
+            most_common_words = word_counts.most_common(5)
+            
+            # Print the results
+            print(f"All words count: {len(words)}")
+            print(f"All characters count: {len(text)}")
+            print(f"Most frequent words in blog:")
+            for word, count in most_common_words:
+                print(f'{word}: {count}')
+        
+
+
 def main():
     number_of_articles_to_fetch = 3
     current_date_formated, check_older_blogs = check_most_recent_blogs()
@@ -78,7 +133,7 @@ def main():
         current_date_formated,
         check_older_blogs
     )
-    print(URLs)
+    analyze_blogs(URLs)
     
 
 if __name__ == "__main__":
