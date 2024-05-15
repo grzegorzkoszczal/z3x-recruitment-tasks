@@ -7,28 +7,25 @@ from collections import Counter
 from string import punctuation
 
 URL = "https://blog.hubspot.com/"
+DEFAULT_NUMBER_OF_BLOGS = 3
+DEFAULT_MOST_COMMON = 5
 
 
-def fetch_blogs(
-        number_of_articles_to_fetch: int,
-    ) -> list[str]: 
-    """
-    Purpose:
-    Scrapes the homepage of website provided in the global constant "URL"
+def fetch_blogs(number_of_blogs_to_fetch: int) -> list[str]: 
+    """Scrapes the homepage of website provided in the global constant "URL"
     by looking through HTML code, seeking the blogs posting dates.
 
-    Input:
-    number_of_articles_to_fetch (int): Variable to imply, how many articles we
-    want to search for.
+    Args:
+        number_of_blogs_to_fetch (int): How many blog we want to search for.
 
-    Output:
-    URLs (list[str]): list of URLs of <number_of_articles_to_fetch>
-    most recent blogs posted on website.
+    Returns:
+        list[str]: list of urls of <number_of_blogs_to_fetch>
+        most recent blogs posted on website.
     """
     html_text = requests.get(URL).text
     soup = BeautifulSoup(html_text, "lxml")
     blogs = soup.find_all("li", class_="blog-categories-post")
-    URLs_with_dates = list()
+    urls_with_dates = list()
 
     for blog in blogs:
         posting_date_div = blog.div.div.div
@@ -36,33 +33,28 @@ def fetch_blogs(
         parsed_date = datetime.strptime(posting_date, "%m/%d/%y")
         formatted_date = parsed_date.strftime("%d/%m/%y")
         URL_to_blog = blog.div.div.h3.a["href"]
-        URLs_with_dates.append((URL_to_blog, formatted_date))
+        urls_with_dates.append((URL_to_blog, formatted_date))
 
-    URLs_with_dates.sort(
+    urls_with_dates.sort(
         key=lambda date: datetime.strptime(date[1], "%d/%m/%y"), reverse=True)
-    URLs = [only_URLs[0] for only_URLs in URLs_with_dates]
+    urls = [only_urls[0] for only_urls in urls_with_dates]
 
-    return URLs[:number_of_articles_to_fetch]
+    return urls[:number_of_blogs_to_fetch]
 
 
-def analyze_blogs(URLs: list[str], most_common: int) -> None:
-    """
-    Purpose:
-    For each URL of the most recent blogs provided, there are counted:
-    - All single characters.
+def analyze_blogs(urls: list[str], most_common: int) -> None:
+    """For each URL of the most recent blogs provided, there are counted:
     - All words.
+    - All single characters.
     - Top <most_common> words.
     - Top <most_common> keyphrases, consisting of two words.
     - Top <most_common> keyphrases, consisting of three words.
 
-    Input:
-    URLs (list[str]): URLs of the articles.
-    most_commong (int): Number of most common occurences we want to find.
-    
-    Output:
-    None: The function simply print the values in the console.
+    Args:
+        urls (list[str]): urls of the blogs
+        most_common (int): Number of most common occurences we want to find
     """
-    for url in URLs:
+    for url in urls:
         response = requests.get(url)
         if response.status_code == 200:
             soup = BeautifulSoup(response.content, 'lxml')
@@ -108,18 +100,20 @@ def analyze_blogs(URLs: list[str], most_common: int) -> None:
                 print(f'{trigram}: {count}')
         
 
-def main(number_of_articles_to_fetch: int, most_common: int):
-    URLs = fetch_blogs(number_of_articles_to_fetch)
-    analyze_blogs(URLs, most_common)
+def main(number_of_blogs_to_fetch: int, most_common: int):
+    urls = fetch_blogs(number_of_blogs_to_fetch)
+    analyze_blogs(urls, most_common)
     
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
         print("Usage: python3 main.py "\
-              "<arg1: number of articles to fetch> "\
+              "<arg1: number of blog to fetch> "\
               "<arg2: most common occurences>")
-        print("Using default values: 3 articles, 5 most common occurences")
-        arg1, arg2 = 3, 5
+        print("Using default values: 3 blog, 5 most common occurences")
+        number_of_blogs_to_fetch = DEFAULT_NUMBER_OF_BLOGS
+        most_common = DEFAULT_MOST_COMMON
     else:
-        arg1, arg2 = int(sys.argv[1]), int(sys.argv[2])
-    main(arg1, arg2)
+        number_of_blogs_to_fetch = int(sys.argv[1])
+        most_common = int(sys.argv[2])
+    main(number_of_blogs_to_fetch, most_common)
