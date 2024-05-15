@@ -4,7 +4,6 @@ import re
 from bs4 import BeautifulSoup
 from datetime import date, datetime, timedelta
 from collections import Counter
-from string import punctuation
 
 URL = "https://blog.hubspot.com/"
 DEFAULT_NUMBER_OF_BLOGS = 3
