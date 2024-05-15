@@ -8,7 +8,7 @@ from string import punctuation
 URL = "https://blog.hubspot.com/"
 
 
-def check_most_recent_blogs(check_older_blogs: int = 0) -> str:
+def check_most_recent_blogs(check_older_blogs: int = 0) -> tuple[str, int]:
     """
     Purpose: 
     Checks current date for finding the most recent blog entries.
@@ -17,15 +17,16 @@ def check_most_recent_blogs(check_older_blogs: int = 0) -> str:
     check_older_blogs (int): In case there are not enough of most recent
     blog entries, check the older ones.
 
-    Output: 
+    Output:
+    Tuple consisting of two variables:
     current_date_formated (str): String representation of current date.
     check_older_blogs (int): Allows to change parameter.
     """
     current_date = date.today()
     current_date = current_date - timedelta(days=check_older_blogs)
     current_date_formated = current_date.strftime("%m/%d/%y")
-    
-    return current_date_formated, check_older_blogs
+
+    return (current_date_formated, check_older_blogs)
 
 
 def fetch_blogs(
