@@ -1,3 +1,4 @@
+import sys
 import requests
 import re
 from bs4 import BeautifulSoup
@@ -131,9 +132,7 @@ def analyze_blogs(URLs: list[str], most_common: int) -> None:
                 print(f'{trigram}: {count}')
         
 
-def main():
-    number_of_articles_to_fetch = 3
-    most_common = 5
+def main(number_of_articles_to_fetch: int, most_common: int):
     current_date_formated, check_older_blogs = check_most_recent_blogs()
     URLs = fetch_blogs(
         number_of_articles_to_fetch,
@@ -144,4 +143,12 @@ def main():
     
 
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) != 3:
+        print("Usage: python3 main.py "\
+              "<arg1: number of articles to fetch> "\
+              "<arg2: most common occurences>")
+        print("Using default values: 3 articles, 5 most common occurences")
+        arg1, arg2 = 3, 5
+    else:
+        arg1, arg2 = int(sys.argv[1]), int(sys.argv[2])
+    main(arg1, arg2)
