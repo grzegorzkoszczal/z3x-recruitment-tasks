@@ -92,7 +92,7 @@ def analyze_blogs(URLs: list[str]):
             most_common_words = word_counts.most_common(5)
             
             # Print the results
-            print(f"Blog title: \"{blog_title}\"")
+            print(f"\nBlog title: \"{blog_title}\"")
             print(f"Blog URL: \"{url}\"")
             print(f"All words count: {len(words)}")
             print(f"All characters count: {len(text)}")
