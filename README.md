@@ -23,14 +23,39 @@ ENG: Please write a Python (v3) script that runs in the console. This script sho
 
 ### How to run:
 
-#### Using "install.sh" (works only for Linux)
+### Using "install.sh" (works only for Linux)
 
 First, it's necessary to gather all dependencies needed for project. Open terminal and navigate to project directory. Type in Bash:
 
 ```
 source install.sh
 ```
-If using IDE such as VS Code, use "ctrl+shift+p" in order to clear Python cache and reload window
+If using IDE such as VS Code, use "ctrl+shift+p" in order to clear Python cache and reload window.
+
+### Manually creating the environment (for Windows users)
+
+Create Python virtual environment, typing in terminal:
+
+```
+python -m venv .z3x_dev
+```
+Where ".z3x_dev" is the name of virtual environment
+
+Activate the environment:
+
+```
+. .\.z3x_dev\Scripts\activate
+```
+
+Clear Python cache and reload window ("ctrl+shift+p" in VS Code)
+
+install the dependencies from `requirements.txt` file:
+
+```
+pip install -r .\requirements.txt
+```
+
+#### Running the script
 
 In order to run the script, type in terminal:
 
@@ -40,7 +65,7 @@ python3 main.py X Y
 Where X is the number of blogs we want to check and Y is number of most common occurences of words and keyphrases.
 If we ommit the arguments, the default values are 3 for blogs and 5 for occurences.
 
-#### Using Docker
+### Using Docker
 
 Check if Docker is installed on current system. Open command line and navigate to project directory. Type command below
 ```
