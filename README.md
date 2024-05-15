@@ -17,9 +17,9 @@ ENG: Please write a Python (v3) script that runs in the console. This script sho
 
 ### Files associated with Task 1:
 
-`main.py`` - Source code for web-scrapping https://blog.hubspot.com/ and searching relevant blogs, as well as count the characters and keywords on most recent ones.\
-`requirements.txt`` - File with listed all the dependencies needed to setup development environment.\
-`Dockerfile`` - Text file that contains a set of instructions used to build a Docker image for easier deployment.\
+`main.py` - Source code for web-scrapping https://blog.hubspot.com/ and searching relevant blogs, as well as count the characters and keywords on most recent ones.\
+`requirements.txt` - File with listed all the dependencies needed to setup development environment.\
+`Dockerfile` - Text file that contains a set of instructions used to build a Docker image for easier deployment.\
 
 ### How to run:
 
