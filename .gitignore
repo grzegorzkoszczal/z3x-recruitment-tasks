@@ -12,3 +12,6 @@ ENV/
 env.bak/
 venv.bak/
 .z3x_dev
+
+# Test scripts
+dev.py
