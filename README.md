@@ -19,18 +19,26 @@ ENG: Please write a Python (v3) script that runs in the console. This script sho
 
 `main.py` - Source code for web-scrapping https://blog.hubspot.com/ and searching relevant blogs, as well as count the characters and keywords on most recent ones.\
 `requirements.txt` - File with listed all the dependencies needed to setup development environment.\
-`Dockerfile` - Text file that contains a set of instructions used to build a Docker image for easier deployment.\
+`Dockerfile` - Text file that contains a set of instructions used to build a Docker image for easier deployment.
 
 ### How to run:
 
 #### Using "install.sh" (works only for Linux)
 
-Open terminal and navigate to project directory. Type in Bash:
+First, it's necessary to gather all dependencies needed for project. Open terminal and navigate to project directory. Type in Bash:
 
 ```
 source install.sh
 ```
 If using IDE such as VS Code, use "ctrl+shift+p" in order to clear Python cache and reload window
+
+In order to run the script, type in terminal:
+
+```
+python3 main.py X Y
+```
+Where X is the number of blogs we want to check and Y is number of most common occurences of words/keyphrases.
+Default values are 3 for blogs and 5 for occurences.
 
 #### Using Docker
 
@@ -43,7 +51,7 @@ In order to run the script, run this command:
 ```
 docker run app
 ```
-This approach uses default values for number of blogs we want to check and most common occurences of words/keyphrases
+This approach uses default values for number of blogs we want to check and most common occurences of words/keyphrases.
 
 ## Task 2 (Technical Writer)
 
