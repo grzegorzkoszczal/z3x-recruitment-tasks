@@ -16,26 +16,30 @@ First, you need to install the Stripe SDK for Python. You can do this using pip:
 
 
 ```
+{bash}
 [user@machine ~]$ pip install stripe
 ```
 
-Initializing the Stripe Client
+## Initializing the Stripe Client
 
 To interact with Stripe, you need to initialize the Stripe client with your secret API key. This is typically done at the start of your script or application.
 
-python
 
+```
+{python}
 import stripe
 
 # Set your secret key. Remember to switch to your live secret key in production!
 stripe.api_key = 'sk_test_your_secret_key'
+```
 
-Creating a Payment Intent
+## Creating a Payment Intent
 
 A common task when integrating Stripe is to create a payment intent, which represents a payment flow. This is typically the first step when accepting payments.
 
-python
 
+```
+{python}
 def create_payment_intent(amount, currency='usd'):
     try:
         payment_intent = stripe.PaymentIntent.create(
@@ -47,22 +51,27 @@ def create_payment_intent(amount, currency='usd'):
         # Handle error
         print(f"Error creating payment intent: {e}")
         return None
+```
 
 In this function, amount is the amount to be charged in the smallest currency unit (e.g., cents for USD), and currency is the three-letter ISO currency code.
-Handling Webhooks
+
+## Handling Webhooks
 
 Webhooks allow Stripe to notify your application about events such as successful payments. To handle webhooks, you need to set up an endpoint in your application that Stripe can send event data to.
 
 First, install the Flask web framework if you haven't already:
 
-bash
 
-pip install Flask
+```
+{bash}
+[user@machine ~]$ pip install Flask
+```
 
 Next, create a Flask application to handle webhooks:
 
-python
 
+```
+{python}
 from flask import Flask, request, jsonify
 import stripe
 
@@ -98,26 +107,31 @@ def stripe_webhook():
 
 if __name__ == '__main__':
     app.run(port=4242)
+```
 
 In this example, replace 'whsec_your_webhook_secret' with your actual webhook secret from the Stripe Dashboard. This Flask application listens for webhook events, verifies the event signature, and handles the payment_intent.succeeded event.
-Testing Your Integration
+
+## Testing Your Integration
 
 Stripe provides a testing environment where you can simulate different payment scenarios using test card numbers. You can find a list of test card numbers in the Stripe documentation.
 
 For example, use the following test card number to simulate a successful payment:
 
-yaml
 
+```
+{yaml}
 4242 4242 4242 4242
+```
 
 To test your webhook, you can use the Stripe CLI to send test events:
 
-bash
-
+```
+{bash}
 stripe listen --forward-to localhost:4242/webhook
 stripe trigger payment_intent.succeeded
+```
 
-Conclusion
+## Conclusion
 
 Integrating Stripe with your Python application using the Stripe SDK is a straightforward process. By following the steps outlined in this article, you can set up payment intents, handle webhooks, and test your integration. Stripe's comprehensive documentation and resources make it easier to expand and customize your payment processing as your application grows.
 
