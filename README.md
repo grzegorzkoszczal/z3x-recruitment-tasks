@@ -37,8 +37,8 @@ In order to run the script, type in terminal:
 ```
 python3 main.py X Y
 ```
-Where X is the number of blogs we want to check and Y is number of most common occurences of words/keyphrases.
-Default values are 3 for blogs and 5 for occurences.
+Where X is the number of blogs we want to check and Y is number of most common occurences of words and keyphrases.
+If we ommit the arguments, the default values are 3 for blogs and 5 for occurences.
 
 #### Using Docker
 
@@ -51,7 +51,7 @@ In order to run the script, run this command:
 ```
 docker run app
 ```
-This approach uses default values for number of blogs we want to check and most common occurences of words/keyphrases.
+This approach uses default values for number of blogs we want to check and most common occurences of words and keyphrases.
 
 ## Task 2 (Technical Writer)
 
