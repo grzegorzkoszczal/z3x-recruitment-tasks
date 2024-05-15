@@ -24,6 +24,7 @@ def check_most_recent_blogs(check_older_blogs: int = 0) -> str:
     current_date = date.today()
     current_date = current_date - timedelta(days=check_older_blogs)
     current_date_formated = current_date.strftime("%m/%d/%y")
+    
     return current_date_formated, check_older_blogs
 
 
@@ -72,13 +73,22 @@ def fetch_blogs(
     return URLs
 
 
-def analyze_blogs(URLs: list[str]):
+def analyze_blogs(URLs: list[str], most_common: int) -> None:
     """
     Purpose:
+    For each URL of the most recent blogs provided, there are counted:
+    - All single characters
+    - All words
+    - Top <most_common> words
+    - Top <most_common> keyphrases, consisting of two words
+    - Top <most_common> keyphrases, consisting of three words
 
     Input:
+    URLs (list[str]): URLs of the articles
+    most_commong (int): Number of most common occurences we want to find
     
     Output:
+    None: The function simply print the values in the console
     """
     for url in URLs:
         response = requests.get(url)
@@ -86,10 +96,21 @@ def analyze_blogs(URLs: list[str]):
             soup = BeautifulSoup(response.content, 'lxml')
             blog_title = soup.find("span", class_="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_text").text
 
+            # Single words
             text = soup.get_text()
             words = re.findall(r'\b\w+\b', text.lower())
             word_counts = Counter(words)
-            most_common_words = word_counts.most_common(5)
+            most_common_words = word_counts.most_common(most_common)
+
+            # Bigrams
+            bigrams = [' '.join(pair) for pair in zip(words, words[1:])]
+            bigram_counts = Counter(bigrams)
+            most_common_bigrams = bigram_counts.most_common(most_common)
+
+            # Trigrams
+            trigrams = [' '.join(trio) for trio in zip(words, words[1:], words[2:])]
+            trigram_counts = Counter(trigrams)
+            most_common_trigrams = trigram_counts.most_common(most_common)
             
             # Print the results
             print(f"\nBlog title: \"{blog_title}\"")
@@ -99,17 +120,26 @@ def analyze_blogs(URLs: list[str]):
             print(f"Most frequent words in blog:")
             for word, count in most_common_words:
                 print(f'{word}: {count}')
+
+            print(f"Most frequent keyphrases, consisting of two words in blog:")
+            for bigram, count in most_common_bigrams:
+                print(f'{bigram}: {count}')
+
+            print(f"Most frequent keyphrases, consisting of three words in blog:")
+            for trigram, count in most_common_trigrams:
+                print(f'{trigram}: {count}')
         
 
 def main():
     number_of_articles_to_fetch = 3
+    most_common = 5
     current_date_formated, check_older_blogs = check_most_recent_blogs()
     URLs = fetch_blogs(
         number_of_articles_to_fetch,
         current_date_formated,
         check_older_blogs
     )
-    analyze_blogs(URLs)
+    analyze_blogs(URLs, most_common)
     
 
 if __name__ == "__main__":
