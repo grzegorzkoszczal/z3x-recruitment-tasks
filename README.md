@@ -34,7 +34,7 @@ If using IDE such as VS Code, use "ctrl+shift+p" in order to clear Python cache 
 
 ### Manually creating the environment (for Windows users)
 
-Create Python virtual environment, typing in terminal:
+Create Python virtual environment, typing in terminal (must be inside project directory):
 
 ```
 python -m venv .z3x_dev
@@ -49,7 +49,7 @@ Activate the environment:
 
 Clear Python cache and reload window ("ctrl+shift+p" in VS Code)
 
-install the dependencies from `requirements.txt` file:
+Install the dependencies from `requirements.txt` file:
 
 ```
 pip install -r .\requirements.txt
