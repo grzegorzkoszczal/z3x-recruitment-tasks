@@ -11,4 +11,4 @@ COPY . /app
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Run main.py when the container launches
-CMD ["python3", "main.py", "number_of_blogs_to_fetch", "most_common"]
+CMD ["python3", "main.py"]

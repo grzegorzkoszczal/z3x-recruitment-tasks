@@ -21,13 +21,29 @@ main.py - Source code for web-scrapping https://blog.hubspot.com/ and searching 
 requirements.txt - File with listed all the dependencies needed to setup development environment.\
 Dockerfile - Text file that contains a set of instructions used to build a Docker image for easier deployment.\
 
-### How to run
+### How to run:
 
-In order to run the script, pull the repository and run this command in Bash:
+#### Using "install.sh" (works only for Linux)
+
+Open terminal and navigate to project directory. Type in Bash:
+
 ```
-docker run app X Y
+source install.sh
 ```
-Where X is the number of blogs we want to check and Y is the number of most common occurences of words/keyphrases
+If using IDE such as VS Code, use "ctrl+shift+p" in order to clear Python cache and reload window
+
+#### Using Docker
+
+Check if Docker is installed on current system. Open command line and navigate to project directory. Type command below
+```
+docker build -t app .
+```
+
+In order to run the script, run this command:
+```
+docker run app
+```
+This approach uses default values for number of blogs we want to check and most common occurences of words/keyphrases
 
 ## Task 2 (Technical Writer)
 
