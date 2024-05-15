@@ -8,20 +8,19 @@ URL = "https://blog.hubspot.com/"
 def check_most_recent_blogs(check_older_blogs: int = 0) -> str:
     """
     Purpose: 
-    Checks current date for finding the most recent blog entries
+    Checks current date for finding the most recent blog entries.
 
     Input:
     check_older_blogs (int): In case there are not enough of most recent
-    blog entries, check the older ones
+    blog entries, check the older ones.
 
     Output: 
-    current_date_formated (str): string representation of current date
+    current_date_formated (str): String representation of current date.
+    check_older_blogs (int): Allows to change parameter.
     """
     current_date = date.today()
     current_date = current_date - timedelta(days=check_older_blogs)
     current_date_formated = current_date.strftime("%m/%d/%y")
-
-    print(f"Current date: {current_date_formated}")
     return current_date_formated, check_older_blogs
 
 
@@ -33,13 +32,18 @@ def fetch_blogs(
     """
     Purpose:
     Scrapes the homepage of website provided in the global constant "URL"
-    and return 
+    by looking through HTML code, seeking the blogs posting dates.
 
     Input:
-    current_date_formated (str): string representation of current date
+    number_of_articles_to_fetch (int): Variable to imply, how many articles we
+    want to search for.
+    current_date_formated (str): String representation of current date.
+    check_older_blogs (int): In case there are not enough recent articles,
+    start looking for older ones.
 
     Output:
-    URLs (list[str]): list of URLs of three most recent blogs posted on website
+    URLs (list[str]): list of URLs of <number_of_articles_to_fetch>
+    most recent blogs posted on website
     """
     html_text = requests.get(URL).text
     soup = BeautifulSoup(html_text, "lxml")
