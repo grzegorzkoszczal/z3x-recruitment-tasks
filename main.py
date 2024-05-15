@@ -38,7 +38,8 @@ def fetch_blogs(
         URL_to_blog = blog.div.div.h3.a["href"]
         URLs_with_dates.append((URL_to_blog, formatted_date))
 
-    URLs_with_dates.sort(key=lambda date: datetime.strptime(date[1], "%d/%m/%y"), reverse=True)
+    URLs_with_dates.sort(
+        key=lambda date: datetime.strptime(date[1], "%d/%m/%y"), reverse=True)
     URLs = [only_URLs[0] for only_URLs in URLs_with_dates]
 
     return URLs[:number_of_articles_to_fetch]
@@ -65,7 +66,10 @@ def analyze_blogs(URLs: list[str], most_common: int) -> None:
         response = requests.get(url)
         if response.status_code == 200:
             soup = BeautifulSoup(response.content, 'lxml')
-            blog_title = soup.find("span", class_="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_text").text
+            blog_title = soup.find("span",
+                                    class_="hs_cos_wrapper "\
+                                    "hs_cos_wrapper_meta_field "\
+                                    "hs_cos_wrapper_type_text").text
 
             # Single words
             text = soup.get_text()
