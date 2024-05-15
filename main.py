@@ -48,7 +48,7 @@ def fetch_blogs(
 
     Output:
     URLs (list[str]): list of URLs of <number_of_articles_to_fetch>
-    most recent blogs posted on website
+    most recent blogs posted on website.
     """
     html_text = requests.get(URL).text
     soup = BeautifulSoup(html_text, "lxml")
@@ -78,18 +78,18 @@ def analyze_blogs(URLs: list[str], most_common: int) -> None:
     """
     Purpose:
     For each URL of the most recent blogs provided, there are counted:
-    - All single characters
-    - All words
-    - Top <most_common> words
-    - Top <most_common> keyphrases, consisting of two words
-    - Top <most_common> keyphrases, consisting of three words
+    - All single characters.
+    - All words.
+    - Top <most_common> words.
+    - Top <most_common> keyphrases, consisting of two words.
+    - Top <most_common> keyphrases, consisting of three words.
 
     Input:
-    URLs (list[str]): URLs of the articles
-    most_commong (int): Number of most common occurences we want to find
+    URLs (list[str]): URLs of the articles.
+    most_commong (int): Number of most common occurences we want to find.
     
     Output:
-    None: The function simply print the values in the console
+    None: The function simply print the values in the console.
     """
     for url in URLs:
         response = requests.get(url)
